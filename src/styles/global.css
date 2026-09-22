@@ -40,7 +40,7 @@ html {
   /* Tipografia */
   --sp-text: hsl(222, 24%, 12%);
   --sp-text-muted: hsl(215, 16%, 42%);
-  --sp-text-dim: hsl(215, 12%, 60%);
+  --sp-text-dim: hsl(215, 18%, 42%);
   --sp-white: hsl(0, 0%, 100%);
 
   /* Feedback / Notificação */
@@ -88,7 +88,7 @@ html {
   /* Tipografia */
   --sp-text: hsl(210, 20%, 96%);
   --sp-text-muted: hsl(215, 16%, 70%);
-  --sp-text-dim: hsl(215, 12%, 52%);
+  --sp-text-dim: hsl(215, 16%, 68%);
   --sp-white: hsl(0, 0%, 98%);
 
   /* Feedback / Notificação */
