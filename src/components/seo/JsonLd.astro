@@ -9,6 +9,7 @@ interface Props {
   authorName?: string;
   image?: string;
   faqItems?: Array<{ question: string; answer: string }>;
+  breadcrumbs?: Array<{ name: string; item: string }>;
 }
 
 const {
@@ -19,16 +20,17 @@ const {
   publishDate,
   updatedDate,
   authorName = 'Heliezer Garcia',
-  image = 'https://pequenoempresario.com.br/favicon.svg',
+  image = 'https://pequenoempresario.com.br/og-image.jpg',
   faqItems = [],
+  breadcrumbs = [],
 } = Astro.props;
 
 const siteUrl = Astro.site?.toString() || 'https://pequenoempresario.com.br/';
 
-let schemaData: Record<string, any> = {};
+const schemas: Record<string, any>[] = [];
 
 if (type === 'Article') {
-  schemaData = {
+  schemas.push({
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     mainEntityOfPage: {
@@ -43,21 +45,22 @@ if (type === 'Article') {
     author: {
       '@type': 'Person',
       name: authorName,
-      url: `${siteUrl}sobre`,
+      url: `${siteUrl}sobre/`,
       image: `${siteUrl}images/heliezer-avatar.webp`,
       jobTitle: 'Fundador & Especialista em Tecnologia e Marketing',
     },
     publisher: {
       '@type': 'Organization',
       name: 'Pequeno Empresário',
+      url: siteUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteUrl}favicon.svg`,
+        url: `${siteUrl}logo.png`,
       },
     },
-  };
+  });
 } else if (type === 'FAQPage' && faqItems.length > 0) {
-  schemaData = {
+  schemas.push({
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: faqItems.map((item) => ({
@@ -68,10 +71,10 @@ if (type === 'Article') {
         text: item.answer,
       },
     })),
-  };
+  });
 } else {
   // WebSite default
-  schemaData = {
+  schemas.push({
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Pequeno Empresário',
@@ -79,11 +82,27 @@ if (type === 'Article') {
     description: description,
     potentialAction: {
       '@type': 'SearchAction',
-      target: `${siteUrl}blog?search={search_term_string}`,
+      target: `${siteUrl}blog/?search={search_term_string}`,
       'query-input': 'required name=search_term_string',
     },
-  };
+  });
+}
+
+// Trilha de Navegação (BreadcrumbList) para Rich Snippets no Google
+if (breadcrumbs.length > 0) {
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: crumb.item,
+    })),
+  });
 }
 ---
 
-<script is:inline type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+{schemas.map((schema) => (
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

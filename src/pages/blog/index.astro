@@ -8,18 +8,24 @@ const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pu
 
 // Coleta todas as tags únicas
 const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags || [])));
+
+const breadcrumbs = [
+  { name: 'Início', item: 'https://pequenoempresario.com.br/' },
+  { name: 'Blog', item: 'https://pequenoempresario.com.br/blog/' },
+];
 ---
 
 <BaseLayout
   title="Guias & Artigos Práticos — Pequeno Empresário"
   description="Arquivo de guias práticos de tecnologia, marketing digital, SEO local e vendas para apoiar o pequeno empresário."
+  breadcrumbs={breadcrumbs}
 >
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
     <!-- Cabeçalho da Página do Blog -->
     <div class="max-w-3xl space-y-4 mb-12">
       <span class="text-xs font-extrabold uppercase tracking-wider text-sp-primary">Conhecimento Aberto</span>
       <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-sp-text">
-        Guias Práticos para o Pequeno Negócio
+        Guias Práticos para o Pequeno Empresário
       </h1>
       <p class="text-base sm:text-lg text-sp-text-muted leading-relaxed">
         Artigos objetivos, sem floreios. Cada texto é pensado para ser lido em poucos minutos e aplicado diretamente no seu negócio.

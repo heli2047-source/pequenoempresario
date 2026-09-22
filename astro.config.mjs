@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://pequenoempresario.com.br',
   output: 'static',
+  trailingSlash: 'always',
   integrations: [
     tailwind(),
     mdx(),

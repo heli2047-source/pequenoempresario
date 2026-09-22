@@ -3,3 +3,4 @@ Allow: /
 Disallow: /go/
 
 Sitemap: https://pequenoempresario.com.br/sitemap-index.xml
+Sitemap: https://pequenoempresario.com.br/sitemap.xml

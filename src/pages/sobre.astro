@@ -1,10 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { name: 'Início', item: 'https://pequenoempresario.com.br/' },
+  { name: 'Sobre', item: 'https://pequenoempresario.com.br/sobre/' },
+];
 ---
 
 <BaseLayout
   title="Sobre o Pequeno Empresário — Tecnologia e Marketing para Pequenos Negócios"
   description="Conheça a missão do Pequeno Empresário: apoiar donos de negócios a superarem os desafios da inserção digital com tecnologia de alta performance e marketing prático."
+  breadcrumbs={breadcrumbs}
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
     <!-- Cabeçalho Principal -->

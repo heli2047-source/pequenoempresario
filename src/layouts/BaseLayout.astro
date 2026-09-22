@@ -14,6 +14,8 @@ interface Props {
   publishDate?: Date;
   updatedDate?: Date;
   author?: string;
+  noindex?: boolean;
+  breadcrumbs?: Array<{ name: string; item: string }>;
 }
 
 const {
@@ -25,6 +27,8 @@ const {
   publishDate,
   updatedDate,
   author = 'Heliezer Garcia',
+  noindex = false,
+  breadcrumbs = [],
 } = Astro.props;
 ---
 
@@ -38,6 +42,7 @@ const {
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="alternate" type="application/rss+xml" title="Pequeno Empresário RSS Feed" href="/rss.xml" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Google Fonts Inter com preconnect para máximo Core Web Vitals -->
@@ -68,6 +73,7 @@ const {
       type={type}
       publishDate={publishDate}
       author={author}
+      noindex={noindex}
     />
 
     <!-- Schema.org JSON-LD -->
@@ -79,6 +85,7 @@ const {
       updatedDate={updatedDate}
       authorName={author}
       image={ogImage}
+      breadcrumbs={breadcrumbs}
     />
   </head>
   <body class="bg-sp-bg text-sp-text min-h-screen flex flex-col selection:bg-sp-primary selection:text-white">

@@ -7,31 +7,40 @@ interface Props {
   type?: 'website' | 'article';
   publishDate?: Date;
   author?: string;
+  noindex?: boolean;
 }
 
 const {
   title,
   description = 'Tecnologia e marketing descomplicados para apoiar o pequeno empresário a superar os desafios da inserção digital e vender mais.',
-  canonicalUrl = Astro.url.href,
+  canonicalUrl,
   ogImage = '/og-image.jpg',
   type = 'website',
   publishDate,
   author = 'Heliezer Garcia',
+  noindex = false,
 } = Astro.props;
 
 const siteTitle = title.includes('Pequeno Empresário') ? title : `${title} — Pequeno Empresário`;
 const fullOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astro.site || 'https://pequenoempresario.com.br').href;
+
+// Normalização de URL Canônica sem query strings acidentais e com barra final padronizada
+const defaultCanonical = new URL(Astro.url.pathname, Astro.site || 'https://pequenoempresario.com.br');
+if (!defaultCanonical.pathname.endsWith('/') && !defaultCanonical.pathname.includes('.')) {
+  defaultCanonical.pathname += '/';
+}
+const finalCanonical = canonicalUrl || defaultCanonical.href;
 ---
 
 <!-- Metatags Primárias -->
 <title>{siteTitle}</title>
 <meta name="title" content={siteTitle} />
 <meta name="description" content={description} />
-<link rel="canonical" href={canonicalUrl} />
+<link rel="canonical" href={finalCanonical} />
 
 <!-- Open Graph / Facebook / LinkedIn -->
 <meta property="og:type" content={type} />
-<meta property="og:url" content={canonicalUrl} />
+<meta property="og:url" content={finalCanonical} />
 <meta property="og:title" content={siteTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={fullOgImage} />
@@ -47,10 +56,14 @@ const fullOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astr
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:url" content={canonicalUrl} />
+<meta name="twitter:url" content={finalCanonical} />
 <meta name="twitter:title" content={siteTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={fullOgImage} />
 
 <!-- Robots & Indexação -->
-<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+{noindex ? (
+  <meta name="robots" content="noindex, follow" />
+) : (
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+)}
