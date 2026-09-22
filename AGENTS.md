@@ -1,7 +1,7 @@
 # Pequeno Empresário — Diretrizes & Regras do Projeto
 
 Consulte sempre as regras consolidadas do projeto:
-Este arquivo espelha as regras corporativas em `../.agents/rules/pequenonegocio.md`.
+Este arquivo espelha as regras corporativas em `../.agents/rules/pequenoempresario.md`.
 
 ---
 

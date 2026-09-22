@@ -153,7 +153,7 @@ const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags || 
     let currentTag = 'all';
     let searchQuery = '';
     let currentPage = 1;
-    let pageSize = parseInt(localStorage.getItem('pequenonegocio-blog-pagesize') || '10', 10);
+    let pageSize = parseInt(localStorage.getItem('pequenoempresario-blog-pagesize') || localStorage.getItem('pequenonegocio-blog-pagesize') || '10', 10);
     if (![10, 25, 50].includes(pageSize)) pageSize = 10;
 
     // Atualiza botões de tamanho de página
@@ -346,7 +346,7 @@ const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags || 
         const newSize = parseInt(btn.getAttribute('data-size') || '10', 10);
         if ([10, 25, 50].includes(newSize)) {
           pageSize = newSize;
-          localStorage.setItem('pequenonegocio-blog-pagesize', String(newSize));
+          localStorage.setItem('pequenoempresario-blog-pagesize', String(newSize));
           updatePageSizeButtons();
           currentPage = 1;
           applyFilters(false);

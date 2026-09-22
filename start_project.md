@@ -46,7 +46,7 @@ Copie o conteúdo abaixo para o contexto do seu agente:
 
 Organize o projeto seguindo a estrutura padronizada abaixo:
 
-pequenonegocio/
+pequenoempresario/
 ├── public/
 │   ├── favicon.svg
 │   ├── robots.txt
@@ -165,10 +165,10 @@ Antes de pedir à sua IDE para codificar os componentes, execute o scaffolding i
 
 ```bash
 # 1. Criação do projeto base
-npm create astro@latest pequenonegocio -- --template minimal --typescript strict --no-install
+npm create astro@latest pequenoempresario -- --template minimal --typescript strict --no-install
 
 # 2. Acesse a pasta
-cd pequenonegocio
+cd pequenoempresario
 
 # 3. Instalação das dependências essenciais
 npm install

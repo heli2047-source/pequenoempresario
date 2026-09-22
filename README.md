@@ -23,7 +23,7 @@
 ## 🏗️ Estrutura do Projeto
 
 ```text
-pequenonegocio/
+pequenoempresario/
 ├── public/           # Arquivos estáticos (.htaccess, robots.txt, favicon)
 ├── src/
 │   ├── assets/       # Imagens e mídias

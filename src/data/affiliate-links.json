@@ -1,19 +1,19 @@
 {
   "livro-copywriting": {
     "title": "Livro de Copywriting Recomendado",
-    "targetUrl": "https://amazon.com.br/dp/example-copywriting?tag=pequenonegocio-20",
+    "targetUrl": "https://amazon.com.br/dp/example-copywriting?tag=pequenoempresario-20",
     "category": "Livros",
     "description": "Obra seminal sobre psicologia de vendas, gatilhos mentais e redação persuasiva."
   },
   "ferramenta-seo": {
     "title": "Ferramenta Profissional de SEO & Backlinks",
-    "targetUrl": "https://ahrefs.com/?via=pequenonegocio",
+    "targetUrl": "https://ahrefs.com/?via=pequenoempresario",
     "category": "Ferramentas",
     "description": "Suíte completa para auditoria técnica de SEO, análise de concorrentes e rankings."
   },
   "hospedagem-hostinger": {
     "title": "Hospedagem Hostinger Alta Performance",
-    "targetUrl": "https://hostinger.com.br/?referral=pequenonegocio",
+    "targetUrl": "https://hostinger.com.br/?referral=pequenoempresario",
     "category": "Infraestrutura",
     "description": "Hospedagem estática com LiteSpeed, cache agressivo e SSL grátis para blogs de alta velocidade."
   },
