@@ -47,6 +47,7 @@ const currentCanonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://p
 if (!currentCanonicalUrl.pathname.endsWith('/')) {
   currentCanonicalUrl.pathname += '/';
 }
+const currentUrl = currentCanonicalUrl.href;
 
 const breadcrumbs = [
   { name: 'Início', item: 'https://pequenoempresario.com.br/' },
