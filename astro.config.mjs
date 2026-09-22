@@ -7,9 +7,6 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://pequenoempresario.com.br',
   output: 'static',
-  build: {
-    format: 'file', // Gera pasta/arquivo.html (ex: blog/post.html) ideal para .htaccess na Hostinger
-  },
   integrations: [
     tailwind(),
     mdx(),
