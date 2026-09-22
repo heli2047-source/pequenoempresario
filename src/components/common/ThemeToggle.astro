@@ -1,0 +1,90 @@
+---
+// ThemeToggle.astro — Alternador de tema Claro / Escuro inspirado no Studio Pulse
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  aria-label="Alternar modo claro/escuro"
+  class="relative inline-flex items-center justify-center w-10 h-10 rounded-full border border-sp-border bg-sp-bg-elevated hover:bg-sp-surface text-sp-text transition-all duration-200 focus-visible:ring-2 focus-visible:ring-sp-primary"
+>
+  <!-- Ícone Sol (Modo Claro) -->
+  <svg
+    id="theme-icon-sun"
+    class="w-5 h-5 hidden"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2"></path>
+    <path d="M12 20v2"></path>
+    <path d="m4.93 4.93 1.41 1.41"></path>
+    <path d="m17.66 17.66 1.41 1.41"></path>
+    <path d="M2 12h2"></path>
+    <path d="M20 12h2"></path>
+    <path d="m6.34 17.66-1.41 1.41"></path>
+    <path d="m19.07 4.93-1.41 1.41"></path>
+  </svg>
+
+  <!-- Ícone Lua (Modo Escuro) -->
+  <svg
+    id="theme-icon-moon"
+    class="w-5 h-5 hidden"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+  </svg>
+</button>
+
+<script is:inline>
+  function setupThemeToggle() {
+    const toggleBtn = document.getElementById('theme-toggle');
+    const sunIcon = document.getElementById('theme-icon-sun');
+    const moonIcon = document.getElementById('theme-icon-moon');
+
+    function updateIcons(isDark) {
+      if (!sunIcon || !moonIcon) return;
+      if (isDark) {
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+      } else {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      }
+    }
+
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+    updateIcons(currentTheme === 'dark');
+
+    if (toggleBtn) {
+      // Remover listener anterior se existir
+      toggleBtn.replaceWith(toggleBtn.cloneNode(true));
+      const freshBtn = document.getElementById('theme-toggle');
+
+      freshBtn?.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('pequenonegocio-theme', newTheme);
+        updateIcons(newTheme === 'dark');
+      });
+    }
+  }
+
+  // Executa no load inicial e em eventuais trocas de página
+  setupThemeToggle();
+  document.addEventListener('astro:page-load', setupThemeToggle);
+</script>

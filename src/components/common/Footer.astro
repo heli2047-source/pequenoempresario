@@ -1,0 +1,109 @@
+---
+// Footer.astro — Rodapé com transparência de afiliação e links
+---
+
+<footer class="mt-auto border-t border-sp-footer-border bg-sp-footer-bg text-sp-footer-text py-12 transition-colors duration-200">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+      <!-- Coluna 1: Marca & Propósito -->
+      <div class="space-y-4">
+        <a href="/" class="flex items-center gap-2.5 text-white font-extrabold text-xl tracking-tight group">
+          <img
+            src="/logo-icon.png"
+            alt="Pequeno Empresário"
+            width="32"
+            height="32"
+            class="w-8 h-8 object-contain group-hover:scale-105 transition-transform duration-200"
+          />
+          <span>Pequeno<span class="text-sp-primary">Empresário</span></span>
+        </a>
+        <p class="text-xs leading-relaxed text-sp-footer-text/90">
+          Tecnologia sólida e estratégias práticas de marketing para apoiar o pequeno empreendedor a vencer a barreira da inserção digital e vender todos os dias.
+        </p>
+        <div class="flex items-center gap-3 text-xs pt-1">
+          <a href="/rss.xml" class="hover:text-white transition-colors flex items-center gap-1.5" target="_blank" rel="noopener noreferrer">
+            <svg class="w-3.5 h-3.5 text-sp-primary" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z" />
+            </svg>
+            Feed RSS
+          </a>
+          <span class="text-sp-footer-border">•</span>
+          <a href="/sitemap-index.xml" class="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
+            Sitemap XML
+          </a>
+        </div>
+      </div>
+
+      <!-- Coluna 2: Soluções Digitais -->
+      <div>
+        <h4 class="text-white text-sm font-semibold uppercase tracking-wider mb-4">Soluções</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/#solucoes" class="hover:text-white transition-colors">1. Diagnóstico & Estratégia</a></li>
+          <li><a href="/#solucoes" class="hover:text-white transition-colors">2. Sites Rápidos & Conversão</a></li>
+          <li><a href="/#solucoes" class="hover:text-white transition-colors">3. Google Maps & Tráfego Local</a></li>
+          <li><a href="/#solucoes" class="hover:text-white transition-colors">4. Retenção & Vendas no WhatsApp</a></li>
+        </ul>
+      </div>
+
+      <!-- Coluna 3: Guias & Artigos (Apenas Artigos do Blog) -->
+      <div>
+        <h4 class="text-white text-sm font-semibold uppercase tracking-wider mb-4">Guias Práticos</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/blog" class="hover:text-white transition-colors">Todos os Artigos</a></li>
+          <li><a href="/blog?tag=seo-local" class="hover:text-white transition-colors">Google Meu Negócio & Maps</a></li>
+          <li><a href="/blog?tag=whatsapp" class="hover:text-white transition-colors">Vendas no WhatsApp</a></li>
+          <li><a href="/blog?tag=anuncios" class="hover:text-white transition-colors">Tráfego Pago (Google & Meta)</a></li>
+        </ul>
+      </div>
+
+      <!-- Coluna 4: Autor & Contato (Sobre, LinkedIn e WhatsApp) -->
+      <div>
+        <h4 class="text-white text-sm font-semibold uppercase tracking-wider mb-4">Autor & Contato</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li>
+            <a href="/sobre" class="hover:text-white transition-colors flex items-center gap-1.5">
+              <span>Sobre Heliezer Garcia</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www.linkedin.com/in/heliezer-garcia/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-white transition-colors inline-flex items-center gap-1.5 text-sp-primary"
+            >
+              <svg class="w-3.5 h-3.5 text-[#0a66c2]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+              </svg>
+              <span>LinkedIn de Heliezer</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://wa.me/5519989161240?text=Ol%C3%A1%2C%20Heliezer!%20Vim%20pelo%20portal%20Pequeno%20Empres%C3%A1rio%20e%20gostaria%20de%20conversar%20sobre%20consultoria%20para%20minha%20empresa."
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-white transition-colors inline-flex items-center gap-1.5 text-sp-success"
+            >
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              <span>Falar no WhatsApp</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Aviso de Afiliados (Transparência Legal) -->
+    <div class="pt-8 border-t border-sp-footer-border text-xs leading-relaxed space-y-3">
+      <p class="text-sp-footer-text/80">
+        <strong class="text-white font-medium">Aviso de Afiliados:</strong> Este portal contém links de parceiros. Ao comprar por eles, recebemos uma comissão sem você pagar nada a mais. Nossa curadoria é rigorosa: só indicamos o que tem alta qualidade, reputação sólida e excelentes avaliações.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-sp-footer-text">
+        <p>© {new Date().getFullYear()} Pequeno Empresário. Criado e mantido por <strong class="text-white font-medium">Heliezer Garcia</strong>.</p>
+        <p class="text-[11px]">Hospedado com alta performance e código limpo.</p>
+      </div>
+    </div>
+  </div>
+</footer>

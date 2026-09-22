@@ -1,0 +1,53 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  slug?: string;
+  externalUrl?: string;
+  badge?: string;
+  ctaText?: string;
+}
+
+const {
+  title,
+  description,
+  slug,
+  externalUrl,
+  badge = 'Ferramenta Recomendada',
+  ctaText = 'Conhecer Ferramenta',
+} = Astro.props;
+
+const targetHref = slug ? `/go/${slug}` : (externalUrl || '#');
+---
+
+<div class="affiliate-card my-8 p-6 rounded-2xl border border-sp-border bg-sp-bg-card hover:border-sp-primary/40 transition-all duration-200 shadow-sm">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="space-y-1.5 flex-1">
+      <div class="flex items-center gap-2">
+        <span class="inline-block px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider rounded-full bg-sp-primary-soft text-sp-primary">
+          {badge}
+        </span>
+        <span class="text-[11px] text-sp-text-dim font-medium">(Link Patrocinado)</span>
+      </div>
+      <h4 class="text-lg font-bold text-sp-text tracking-tight">
+        {title}
+      </h4>
+      <p class="text-sm text-sp-text-muted leading-relaxed">
+        {description}
+      </p>
+    </div>
+    <div class="sm:self-center shrink-0">
+      <a
+        href={targetHref}
+        target="_blank"
+        rel="sponsored nofollow noopener noreferrer"
+        class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-sp-primary hover:bg-sp-primary-hover rounded-xl shadow-sm transition-transform active:scale-95"
+      >
+        <span>{ctaText}</span>
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M7 17L17 7M17 7H7M17 7V17" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>

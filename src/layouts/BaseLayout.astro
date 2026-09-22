@@ -1,0 +1,98 @@
+---
+import Header from '../components/common/Header.astro';
+import Footer from '../components/common/Footer.astro';
+import SeoMeta from '../components/seo/SeoMeta.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  type?: 'website' | 'article';
+  publishDate?: Date;
+  updatedDate?: Date;
+  author?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalUrl,
+  ogImage,
+  type = 'website',
+  publishDate,
+  updatedDate,
+  author = 'Heliezer Garcia',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Google Fonts Inter com preconnect para máximo Core Web Vitals -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Script inline anti-flicker de tema (evita flash branco ao carregar tema escuro) -->
+    <script is:inline>
+      (function() {
+        const storedTheme = localStorage.getItem('pequenonegocio-theme');
+        if (storedTheme) {
+          document.documentElement.setAttribute('data-theme', storedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+
+    <!-- SEO Meta Tags & OpenGraph -->
+    <SeoMeta
+      title={title}
+      description={description}
+      canonicalUrl={canonicalUrl}
+      ogImage={ogImage}
+      type={type}
+      publishDate={publishDate}
+      author={author}
+    />
+
+    <!-- Schema.org JSON-LD -->
+    <JsonLd
+      type={type === 'article' ? 'Article' : 'WebSite'}
+      title={title}
+      description={description}
+      publishDate={publishDate}
+      updatedDate={updatedDate}
+      authorName={author}
+      image={ogImage}
+    />
+  </head>
+  <body class="bg-sp-bg text-sp-text min-h-screen flex flex-col selection:bg-sp-primary selection:text-white">
+    <!-- Skip Link de Acessibilidade -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 px-4 py-2 bg-sp-primary text-white font-bold rounded-lg shadow-lg">
+      Pular para o conteúdo principal
+    </a>
+
+    <Header />
+
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

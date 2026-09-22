@@ -1,0 +1,68 @@
+---
+export interface HeadingItem {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings?: HeadingItem[];
+}
+
+const { headings = [] } = Astro.props;
+
+// Filtra apenas H2 e H3 para manter o sumário limpo e objetivo
+const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const totalTopics = filteredHeadings.length;
+---
+
+{totalTopics >= 2 && (
+  <nav 
+    class="my-8 rounded-2xl border border-sp-border bg-sp-bg-elevated/70 p-5 sm:p-6 backdrop-blur-xs shadow-xs transition-all" 
+    aria-label="Sumário do artigo"
+  >
+    <details open class="group">
+      <summary class="flex items-center justify-between cursor-pointer list-none select-none font-bold text-sp-text text-base sm:text-lg">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-sp-primary-soft text-sp-primary flex items-center justify-center text-sm shadow-2xs">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line>
+            </svg>
+          </div>
+          <span>Neste Artigo</span>
+          <span class="text-xs font-mono font-medium px-2 py-0.5 rounded-full bg-sp-surface text-sp-text-muted border border-sp-border">
+            {totalTopics} tópicos
+          </span>
+        </div>
+        <div class="text-sp-text-muted group-open:rotate-180 transition-transform duration-200 p-1">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </summary>
+
+      <ol class="mt-4 pt-4 border-t border-sp-border/80 space-y-2 text-sm">
+        {filteredHeadings.map((h) => (
+          <li class={h.depth === 3 ? "pl-5 sm:pl-6 text-xs sm:text-sm text-sp-text-muted" : "font-medium text-sp-text"}>
+            <a 
+              href={`#${h.slug}`} 
+              class="inline-flex items-baseline gap-2 text-sp-text hover:text-sp-primary transition-colors py-1 group/link"
+            >
+              {h.depth === 2 ? (
+                <span class="w-1.5 h-1.5 rounded-full bg-sp-primary/60 group-hover/link:bg-sp-primary transition-colors mt-2 shrink-0"></span>
+              ) : (
+                <span class="text-sp-text-dim text-xs select-none">↳</span>
+              )}
+              <span class="hover:underline underline-offset-4 decoration-sp-primary/40 leading-snug">{h.text}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </details>
+  </nav>
+)}

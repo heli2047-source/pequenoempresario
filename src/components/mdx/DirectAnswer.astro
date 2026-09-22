@@ -1,0 +1,25 @@
+---
+interface Props {
+  question: string;
+}
+
+const { question } = Astro.props;
+---
+
+<div class="direct-answer-box my-8 p-6 rounded-2xl border-2 border-sp-primary/30 bg-sp-bg-elevated shadow-sm">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider rounded-md bg-sp-primary text-white">
+      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+      </svg>
+      GEO · Resposta Direta
+    </span>
+    <span class="text-xs text-sp-text-muted font-medium">Otimizado para mecanismos generativos e síntese</span>
+  </div>
+  <h4 class="text-base sm:text-lg font-bold text-sp-text mb-2 tracking-tight">
+    {question}
+  </h4>
+  <div class="text-sm sm:text-base leading-relaxed text-sp-text border-l-2 border-sp-primary pl-3 py-1 font-medium">
+    <slot />
+  </div>
+</div>

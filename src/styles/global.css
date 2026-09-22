@@ -1,0 +1,296 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+/* ==========================================================================
+   Pequeno Empresário — Design Tokens
+   Modo Claro + Modo Escuro
+   
+   NOTA PARA CUSTOMIZAÇÃO FUTURA:
+   Para trocar a paleta de cores ou a identidade visual, basta alterar
+   os valores das variáveis CSS abaixo em :root (Claro) e [data-theme="dark"] (Escuro).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Tema Claro (Light Mode) — Base em Azul Tecnológico
+   -------------------------------------------------------------------------- */
+:root {
+  /* Cores de Fundo e Superfícies (Toque frio/slate limpo) */
+  --sp-bg: hsl(210, 20%, 98%);
+  --sp-bg-elevated: hsl(210, 16%, 95%);
+  --sp-bg-card: hsl(0, 0%, 100%);
+  --sp-surface: hsl(210, 14%, 92%);
+  --sp-border: hsl(210, 12%, 88%);
+  --sp-border-light: hsl(210, 12%, 93%);
+
+  /* Cor Primária da Marca (Azul Cobalto / Electric Blue) */
+  --sp-primary: hsl(221, 83%, 53%);
+  --sp-primary-hover: hsl(221, 83%, 45%);
+  --sp-primary-soft: hsl(214, 95%, 93%);
+
+  /* Cor de Destaque Secundária (Ciano / Sky Vibrante) */
+  --sp-accent: hsl(199, 89%, 48%);
+  --sp-accent-soft: hsl(199, 90%, 93%);
+
+  /* Tipografia */
+  --sp-text: hsl(222, 24%, 12%);
+  --sp-text-muted: hsl(215, 16%, 42%);
+  --sp-text-dim: hsl(215, 12%, 60%);
+  --sp-white: hsl(0, 0%, 100%);
+
+  /* Feedback / Notificação */
+  --sp-success: hsl(152, 60%, 38%);
+  --sp-error: hsl(4, 80%, 50%);
+
+  /* Elementos de Navegação e Rodapé */
+  --sp-navbar-bg: hsl(210, 20%, 98%, 0.85);
+  --sp-navbar-border: hsl(210, 12%, 88%);
+  --sp-footer-bg: hsl(222, 47%, 7%);
+  --sp-footer-border: hsl(222, 30%, 14%);
+  --sp-footer-text: hsl(215, 16%, 60%);
+  --sp-footer-link: hsl(215, 20%, 82%);
+
+  /* Gradientes Sutis */
+  --sp-hero-grad-top: hsl(221, 83%, 53%, 0.08);
+  --sp-hero-grad-bottom: hsl(199, 89%, 48%, 0.05);
+
+  /* Fontes */
+  --sp-font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --sp-font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+}
+
+/* --------------------------------------------------------------------------
+   2. Tema Escuro (Dark Mode) — Midnight Slate / Deep Blue Premium
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  /* Cores de Fundo e Superfícies (Navy Slate Profundo) */
+  --sp-bg: hsl(222, 47%, 7%);
+  --sp-bg-elevated: hsl(222, 40%, 11%);
+  --sp-bg-card: hsl(222, 35%, 13%);
+  --sp-surface: hsl(222, 28%, 18%);
+  --sp-border: hsl(222, 20%, 22%);
+  --sp-border-light: hsl(222, 20%, 28%);
+
+  /* Cor Primária da Marca (Azul Elétrico Luminous) */
+  --sp-primary: hsl(217, 91%, 60%);
+  --sp-primary-hover: hsl(217, 91%, 68%);
+  --sp-primary-soft: hsl(217, 70%, 18%);
+
+  /* Cor de Destaque Secundária (Ciano Luminous) */
+  --sp-accent: hsl(199, 89%, 60%);
+  --sp-accent-soft: hsl(199, 60%, 18%);
+
+  /* Tipografia */
+  --sp-text: hsl(210, 20%, 96%);
+  --sp-text-muted: hsl(215, 16%, 70%);
+  --sp-text-dim: hsl(215, 12%, 52%);
+  --sp-white: hsl(0, 0%, 98%);
+
+  /* Feedback / Notificação */
+  --sp-success: hsl(152, 60%, 48%);
+  --sp-error: hsl(4, 80%, 58%);
+
+  /* Elementos de Navegação e Rodapé */
+  --sp-navbar-bg: hsl(222, 47%, 7%, 0.85);
+  --sp-navbar-border: hsl(222, 20%, 18%);
+  --sp-footer-bg: hsl(222, 50%, 5%);
+  --sp-footer-border: hsl(222, 20%, 12%);
+  --sp-footer-text: hsl(215, 16%, 55%);
+  --sp-footer-link: hsl(215, 20%, 75%);
+
+  /* Gradientes Sutis */
+  --sp-hero-grad-top: hsl(217, 91%, 60%, 0.08);
+  --sp-hero-grad-bottom: hsl(199, 89%, 60%, 0.05);
+}
+
+/* --------------------------------------------------------------------------
+   3. Configurações Globais & Tipografia Base
+   -------------------------------------------------------------------------- */
+html {
+  font-family: var(--sp-font-body);
+  background-color: var(--sp-bg);
+  color: var(--sp-text);
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--sp-bg);
+  color: var(--sp-text);
+}
+
+/* Transições suaves ao alternar temas */
+body, nav, header, footer, article, section, div, aside {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Foco de acessibilidade visível */
+:focus-visible {
+  outline: 2px solid var(--sp-primary);
+  outline-offset: 2px;
+}
+
+/* Estilos de Tipografia para Artigos (.article-content) */
+.article-content {
+  color: var(--sp-text);
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+.article-content h2 {
+  font-size: 1.875rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--sp-text);
+}
+
+.article-content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: var(--sp-text);
+}
+
+.article-content p {
+  margin-bottom: 1.5rem;
+}
+
+.article-content a {
+  color: var(--sp-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.article-content a:hover {
+  color: var(--sp-primary-hover);
+}
+
+.article-content ul, .article-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.article-content ul {
+  list-style-type: disc;
+}
+
+.article-content ol {
+  list-style-type: decimal;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+}
+
+.article-content blockquote {
+  border-left: 4px solid var(--sp-primary);
+  padding-left: 1.25rem;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 1.75rem;
+  font-style: italic;
+  color: var(--sp-text-muted);
+  background-color: var(--sp-bg-elevated);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.article-content pre {
+  background-color: var(--sp-surface);
+  border: 1px solid var(--sp-border);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1.75rem;
+  overflow-x: auto;
+  font-family: var(--sp-font-mono);
+  font-size: 0.95rem;
+}
+
+.article-content code:not(pre code) {
+  font-family: var(--sp-font-mono);
+  font-size: 0.9em;
+  background-color: var(--sp-surface);
+  border: 1px solid var(--sp-border);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.35rem;
+  color: var(--sp-primary);
+}
+
+.article-content hr {
+  border: 0;
+  height: 1px;
+  background-color: var(--sp-border);
+  margin: 3rem 0;
+}
+
+/* ==========================================================================
+   WhatsApp Pipeline Badges & Status Tags
+   ========================================================================== */
+.badge-pipe-yellow {
+  background-color: rgba(234, 179, 8, 0.14);
+  color: #a16207;
+  border: 1px solid rgba(234, 179, 8, 0.4);
+}
+.badge-pipe-blue {
+  background-color: rgba(37, 99, 235, 0.12);
+  color: #1d4ed8;
+  border: 1px solid rgba(37, 99, 235, 0.4);
+}
+.badge-pipe-purple {
+  background-color: rgba(147, 51, 234, 0.12);
+  color: #7e22ce;
+  border: 1px solid rgba(147, 51, 234, 0.4);
+}
+.badge-pipe-orange {
+  background-color: rgba(234, 88, 12, 0.12);
+  color: #c2410c;
+  border: 1px solid rgba(234, 88, 12, 0.4);
+}
+.badge-pipe-green {
+  background-color: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+  border: 1px solid rgba(22, 163, 74, 0.4);
+}
+
+[data-theme="dark"] .badge-pipe-yellow {
+  background-color: rgba(250, 204, 21, 0.18);
+  color: #fde047;
+  border-color: rgba(250, 204, 21, 0.4);
+}
+[data-theme="dark"] .badge-pipe-blue {
+  background-color: rgba(96, 165, 250, 0.18);
+  color: #93c5fd;
+  border-color: rgba(96, 165, 250, 0.4);
+}
+[data-theme="dark"] .badge-pipe-purple {
+  background-color: rgba(192, 132, 252, 0.18);
+  color: #d8b4fe;
+  border-color: rgba(192, 132, 252, 0.4);
+}
+[data-theme="dark"] .badge-pipe-orange {
+  background-color: rgba(251, 146, 60, 0.18);
+  color: #fdba74;
+  border-color: rgba(251, 146, 60, 0.4);
+}
+[data-theme="dark"] .badge-pipe-green {
+  background-color: rgba(74, 222, 128, 0.18);
+  color: #86efac;
+  border-color: rgba(74, 222, 128, 0.4);
+}

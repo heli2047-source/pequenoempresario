@@ -1,0 +1,201 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ShareButtons from '../components/common/ShareButtons.astro';
+import TableOfContents, { type HeadingItem } from '../components/blog/TableOfContents.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  heroImage?: string;
+  tags?: string[];
+  author?: string;
+  affiliateDisclosure?: boolean;
+  readingTimeMinutes?: number;
+  headings?: HeadingItem[];
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  heroImage,
+  tags = [],
+  author = 'Heliezer Garcia',
+  affiliateDisclosure = false,
+  readingTimeMinutes = 5,
+  headings = [],
+} = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat('pt-BR', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric',
+}).format(pubDate);
+
+const formattedUpdatedDate = updatedDate
+  ? new Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    }).format(updatedDate)
+  : null;
+
+const currentUrl = Astro.url.href;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={heroImage || '/favicon.svg'}
+  type="article"
+  publishDate={pubDate}
+  updatedDate={updatedDate}
+  author={author}
+>
+  <article class="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+    <!-- Breadcrumbs / Navegação de Retorno -->
+    <nav class="flex items-center gap-2 text-xs text-sp-text-muted mb-8" aria-label="Trilha de navegação">
+      <a href="/" class="hover:text-sp-primary transition-colors">Início</a>
+      <span>/</span>
+      <a href="/blog" class="hover:text-sp-primary transition-colors">Blog</a>
+      <span>/</span>
+      <span class="text-sp-text font-medium truncate max-w-[200px] sm:max-w-none">{title}</span>
+    </nav>
+
+    <!-- Cabeçalho do Artigo -->
+    <header class="space-y-5 pb-8 border-b border-sp-border">
+      <!-- Tags -->
+      <div class="flex items-center gap-2 flex-wrap">
+        {tags.map((tag) => (
+          <a
+            href={`/blog?tag=${tag}`}
+            class="px-3 py-1 text-xs font-extrabold uppercase tracking-wider rounded-full bg-sp-primary-soft text-sp-primary hover:bg-sp-primary hover:text-white transition-colors"
+          >
+            #{tag}
+          </a>
+        ))}
+      </div>
+
+      <!-- Título H1 -->
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-sp-text leading-tight">
+        {title}
+      </h1>
+
+      <!-- Resumo / Subtítulo -->
+      <p class="text-lg sm:text-xl text-sp-text-muted leading-relaxed">
+        {description}
+      </p>
+
+      <!-- Metadados de Autor, Data e Leitura -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pt-4 text-xs sm:text-sm text-sp-text-dim font-medium">
+        <div class="flex items-center gap-3">
+          <img
+            src="/images/heliezer-avatar.webp"
+            alt={`Foto de ${author}`}
+            width="40"
+            height="40"
+            loading="eager"
+            decoding="async"
+            class="w-10 h-10 rounded-full object-cover border border-sp-border shadow-xs"
+          />
+          <div>
+            <span class="block text-sp-text font-semibold">{author}</span>
+            <div class="flex items-center gap-2 text-sp-text-dim text-xs">
+              <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+              {formattedUpdatedDate && (
+                <span>(Atualizado em {formattedUpdatedDate})</span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 font-mono text-xs bg-sp-surface px-3 py-1.5 rounded-lg border border-sp-border">
+          <svg class="w-4 h-4 text-sp-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>{readingTimeMinutes} min de leitura</span>
+        </div>
+      </div>
+
+      <!-- Aviso de Afiliados no Artigo (se habilitado) -->
+      {affiliateDisclosure && (
+        <div class="p-4 rounded-xl border border-sp-border bg-sp-bg-elevated text-xs text-sp-text-muted leading-relaxed flex items-start gap-3 mt-4">
+          <span class="text-base leading-none">💡</span>
+          <div>
+            <strong class="text-sp-text font-semibold">Aviso de Afiliados:</strong> Este artigo contém links de parceiros. Ao comprar por eles, recebemos uma comissão sem você pagar nada a mais. Nossa curadoria é rigorosa: só entra aqui o que tem alta qualidade, reputação sólida e excelentes avaliações.
+          </div>
+        </div>
+      )}
+    </header>
+
+    <!-- Imagem Hero Opcional -->
+    {heroImage && (
+      <div class="my-8 rounded-2xl overflow-hidden border border-sp-border shadow-sm">
+        <img src={heroImage} alt={title} class="w-full h-auto max-h-[480px] object-cover" />
+      </div>
+    )}
+
+    <!-- Sumário Automático do Artigo (SEO & Navegabilidade) -->
+    <TableOfContents headings={headings} />
+
+    <!-- Corpo do Artigo Renderizado via Slot -->
+    <div class="article-content py-6">
+      <slot />
+    </div>
+
+    <!-- Compartilhamento & Ações -->
+    <div class="pt-8 pb-12 border-t border-sp-border flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <ShareButtons title={title} url={currentUrl} description={description} />
+
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-sp-primary hover:text-sp-primary-hover transition-colors"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        <span>Voltar para todos os Artigos</span>
+      </a>
+    </div>
+  </article>
+
+  <!-- Renderizador Dinâmico de Diagramas Mermaid -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const mermaidNodes = document.querySelectorAll('pre[data-language="mermaid"], pre.language-mermaid');
+      if (mermaidNodes.length > 0) {
+        try {
+          const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs');
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: 'dark',
+            themeVariables: {
+              darkMode: true,
+              background: '#18181b',
+              primaryColor: '#2563eb',
+              primaryTextColor: '#f4f4f5',
+              lineColor: '#52525b',
+            }
+          });
+
+          for (let i = 0; i < mermaidNodes.length; i++) {
+            const pre = mermaidNodes[i];
+            const code = pre.textContent.trim();
+            const id = `mermaid-container-${i}`;
+            const { svg } = await mermaid.render(id, code);
+            const container = document.createElement('div');
+            container.className = 'my-8 p-4 rounded-2xl border border-sp-border bg-sp-bg-card/90 flex justify-center overflow-x-auto shadow-xs';
+            container.innerHTML = svg;
+            pre.replaceWith(container);
+          }
+        } catch (err) {
+          console.error('Falha ao renderizar diagrama Mermaid:', err);
+        }
+      }
+    });
+  </script>
+</BaseLayout>

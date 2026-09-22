@@ -1,0 +1,84 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  buttonText?: string;
+  actionUrl?: string;
+}
+
+const {
+  title = 'Receba Dicas Práticas no seu Email',
+  description = 'Estratégias de tecnologia e marketing para alavancar seu pequeno negócio. Sem enrolação e direto ao ponto.',
+  buttonText = 'Inscrever-se Grátis',
+  actionUrl = '#',
+} = Astro.props;
+---
+
+<div id="newsletter" class="lead-form-box my-10 p-8 sm:p-10 rounded-3xl border border-sp-border bg-sp-bg-elevated relative overflow-hidden transition-colors">
+  <!-- Efeito sutil de iluminação no canto -->
+  <div class="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-sp-primary/10 blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-xl mx-auto text-center space-y-4 relative z-10">
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sp-primary-soft text-sp-primary text-xs font-bold uppercase tracking-wider">
+      <span>✉️</span> Newsletter Semanal
+    </div>
+
+    <h3 class="text-2xl sm:text-3xl font-extrabold text-sp-text tracking-tight">
+      {title}
+    </h3>
+
+    <p class="text-sm sm:text-base text-sp-text-muted leading-relaxed">
+      {description}
+    </p>
+
+    <form class="lead-capture-form mt-6 flex flex-col sm:flex-row gap-3 items-stretch justify-center" action={actionUrl} method="POST">
+      <div class="relative flex-1">
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="seu.email@exemplo.com"
+          autocomplete="email"
+          class="w-full px-4 py-3 text-sm rounded-xl border border-sp-border bg-sp-bg-card text-sp-text placeholder-sp-text-dim focus:border-sp-primary focus:ring-1 focus:ring-sp-primary transition-all duration-150 shadow-sm"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold uppercase tracking-wider text-white bg-sp-primary hover:bg-sp-primary-hover rounded-xl shadow-md transition-all duration-150 active:scale-95 shrink-0"
+      >
+        {buttonText}
+      </button>
+    </form>
+
+    <div class="form-feedback hidden text-xs font-medium mt-3 text-sp-success">
+      Obrigado por se inscrever! Verifique sua caixa de entrada.
+    </div>
+
+    <p class="text-[11px] text-sp-text-dim">
+      Zero spam. Cancele sua inscrição quando quiser em 1 clique.
+    </p>
+  </div>
+</div>
+
+<script is:inline>
+  function setupLeadForms() {
+    const forms = document.querySelectorAll('.lead-capture-form');
+    forms.forEach((form) => {
+      form.addEventListener('submit', (e) => {
+        const action = form.getAttribute('action');
+        if (!action || action === '#') {
+          e.preventDefault();
+          const feedback = form.parentElement.querySelector('.form-feedback');
+          if (feedback) {
+            feedback.classList.remove('hidden');
+          }
+          form.reset();
+        }
+      });
+    });
+  }
+
+  setupLeadForms();
+  document.addEventListener('astro:page-load', setupLeadForms);
+</script>

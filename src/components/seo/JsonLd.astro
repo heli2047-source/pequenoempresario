@@ -1,0 +1,89 @@
+---
+interface Props {
+  type?: 'WebSite' | 'Article' | 'FAQPage';
+  title?: string;
+  description?: string;
+  url?: string;
+  publishDate?: Date;
+  updatedDate?: Date;
+  authorName?: string;
+  image?: string;
+  faqItems?: Array<{ question: string; answer: string }>;
+}
+
+const {
+  type = 'WebSite',
+  title = 'Pequeno Empresário — Tecnologia e Marketing para Pequenos Negócios',
+  description = 'Portal com estratégias práticas de tecnologia, SEO local, sites de alta velocidade e vendas para apoiar o pequeno empreendedor.',
+  url = Astro.url.href,
+  publishDate,
+  updatedDate,
+  authorName = 'Heliezer Garcia',
+  image = 'https://pequenoempresario.com.br/favicon.svg',
+  faqItems = [],
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString() || 'https://pequenoempresario.com.br/';
+
+let schemaData: Record<string, any> = {};
+
+if (type === 'Article') {
+  schemaData = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': url,
+    },
+    headline: title,
+    description: description,
+    image: image,
+    datePublished: publishDate ? publishDate.toISOString() : new Date().toISOString(),
+    dateModified: updatedDate ? updatedDate.toISOString() : (publishDate ? publishDate.toISOString() : new Date().toISOString()),
+    author: {
+      '@type': 'Person',
+      name: authorName,
+      url: `${siteUrl}sobre`,
+      image: `${siteUrl}images/heliezer-avatar.webp`,
+      jobTitle: 'Fundador & Especialista em Tecnologia e Marketing',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Pequeno Empresário',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}favicon.svg`,
+      },
+    },
+  };
+} else if (type === 'FAQPage' && faqItems.length > 0) {
+  schemaData = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
+} else {
+  // WebSite default
+  schemaData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Pequeno Empresário',
+    url: siteUrl,
+    description: description,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${siteUrl}blog?search={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
+  };
+}
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schemaData)} />

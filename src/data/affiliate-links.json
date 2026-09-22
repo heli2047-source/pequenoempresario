@@ -1,0 +1,26 @@
+{
+  "livro-copywriting": {
+    "title": "Livro de Copywriting Recomendado",
+    "targetUrl": "https://amazon.com.br/dp/example-copywriting?tag=pequenonegocio-20",
+    "category": "Livros",
+    "description": "Obra seminal sobre psicologia de vendas, gatilhos mentais e redação persuasiva."
+  },
+  "ferramenta-seo": {
+    "title": "Ferramenta Profissional de SEO & Backlinks",
+    "targetUrl": "https://ahrefs.com/?via=pequenonegocio",
+    "category": "Ferramentas",
+    "description": "Suíte completa para auditoria técnica de SEO, análise de concorrentes e rankings."
+  },
+  "hospedagem-hostinger": {
+    "title": "Hospedagem Hostinger Alta Performance",
+    "targetUrl": "https://hostinger.com.br/?referral=pequenonegocio",
+    "category": "Infraestrutura",
+    "description": "Hospedagem estática com LiteSpeed, cache agressivo e SSL grátis para blogs de alta velocidade."
+  },
+  "placa-nfc-qr-code-balcao": {
+    "title": "Placa NFC com QR Code | Display Inteligente de Acrílico",
+    "targetUrl": "https://s.shopee.com.br/1gIiRS5Z1Y",
+    "category": "Ponto de Venda",
+    "description": "Display inteligente de acrílico com tecnologia NFC e QR Code para balcão, recepção e mesas. Permite que o cliente aproxime o celular e avalie sua empresa no Google em poucos segundos."
+  }
+}

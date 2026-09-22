@@ -1,0 +1,84 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  slug: string;
+  pubDate: Date;
+  tags?: string[];
+  author?: string;
+  readingTimeMinutes?: number;
+}
+
+const {
+  title,
+  description,
+  slug,
+  pubDate,
+  tags = [],
+  author = 'Heliezer Garcia',
+  readingTimeMinutes = 4,
+} = Astro.props;
+
+// Formatação amigável em Português
+const formattedDate = new Intl.DateTimeFormat('pt-BR', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+}).format(pubDate);
+---
+
+<article class="group relative flex flex-col justify-between p-6 sm:p-7 rounded-2xl border border-sp-border bg-sp-bg-card hover:border-sp-primary/50 hover:shadow-lg transition-all duration-300">
+  <div class="space-y-3">
+    <!-- Tags & Data -->
+    <div class="flex items-center justify-between text-xs text-sp-text-dim">
+      <div class="flex items-center gap-2 flex-wrap">
+        {tags.slice(0, 2).map((tag) => (
+          <span class="px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider text-[10px] bg-sp-surface text-sp-text-muted group-hover:bg-sp-primary-soft group-hover:text-sp-primary transition-colors">
+            #{tag}
+          </span>
+        ))}
+      </div>
+      <div class="flex items-center gap-1.5 font-mono text-[11px]">
+        <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+        <span>•</span>
+        <span>{readingTimeMinutes} min</span>
+      </div>
+    </div>
+
+    <!-- Título do Post -->
+    <h3 class="text-xl sm:text-2xl font-extrabold text-sp-text tracking-tight group-hover:text-sp-primary transition-colors duration-200">
+      <a href={`/blog/${slug}`} class="focus:outline-none">
+        <span class="absolute inset-0 z-10" aria-hidden="true"></span>
+        {title}
+      </a>
+    </h3>
+
+    <!-- Resumo / Descrição -->
+    <p class="text-sm text-sp-text-muted leading-relaxed line-clamp-3">
+      {description}
+    </p>
+  </div>
+
+  <!-- Rodapé do Card: Autor + Seta CTA -->
+  <div class="pt-5 mt-4 border-t border-sp-border-light flex items-center justify-between text-xs">
+    <div class="flex items-center gap-2">
+      <img
+        src="/images/heliezer-avatar-sm.webp"
+        alt={`Foto de ${author}`}
+        width="24"
+        height="24"
+        loading="lazy"
+        decoding="async"
+        class="w-6 h-6 rounded-full object-cover border border-sp-border"
+      />
+      <span class="font-medium text-sp-text-muted">{author}</span>
+    </div>
+
+    <span class="inline-flex items-center gap-1 font-semibold text-sp-primary group-hover:translate-x-1 transition-transform duration-200">
+      <span>Ler artigo</span>
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M5 12h14M12 5l7 7-7 7" />
+      </svg>
+    </span>
+  </div>
+</article>

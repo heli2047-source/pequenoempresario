@@ -1,0 +1,237 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const currentPath = Astro.url.pathname;
+const navLinks = [
+  { href: '/', label: 'Início' },
+  { href: '/#solucoes', label: 'Soluções' },
+  { href: '/blog', label: 'Artigos & Guias' },
+  { href: '/sobre', label: 'Sobre' },
+];
+
+const whatsappHeaderUrl = "https://wa.me/5519989161240?text=Ol%C3%A1%2C%20Heliezer!%20Vim%20pelo%20portal%20Pequeno%20Empres%C3%A1rio%20e%20gostaria%20de%20um%20diagn%C3%B3stico%20digital%20para%20minha%20empresa.";
+---
+
+<header class="sticky top-0 z-50 w-full border-b border-sp-navbar-border bg-sp-navbar-bg backdrop-blur-md transition-colors duration-200">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <!-- Logotipo Pequeno Empresário -->
+    <a href="/" class="flex items-center gap-2.5 group" aria-label="Pequeno Empresário Home">
+      <img
+        src="/logo-icon.png"
+        alt="Pequeno Empresário"
+        width="38"
+        height="38"
+        class="w-9 h-9 sm:w-10 sm:h-10 object-contain group-hover:scale-105 transition-transform duration-200"
+      />
+      <div class="flex flex-col">
+        <span class="font-extrabold text-lg sm:text-xl tracking-tight text-sp-text leading-none group-hover:text-sp-primary transition-colors">
+          Pequeno<span class="text-sp-primary">Empresário</span>
+        </span>
+        <span class="text-[10px] uppercase font-bold tracking-widest text-sp-text-dim">Tecnologia & Marketing</span>
+      </div>
+    </a>
+
+    <!-- Navegação Desktop -->
+    <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-sp-text-muted" aria-label="Navegação Principal">
+      {navLinks.map((link) => {
+        const isActive = currentPath === link.href || (link.href !== '/' && !link.href.startsWith('/#') && currentPath.startsWith(link.href));
+        return (
+          <a
+            href={link.href}
+            data-nav-href={link.href}
+            class={`nav-link transition-colors duration-150 relative py-1 ${
+              isActive
+                ? 'text-sp-primary font-semibold'
+                : 'hover:text-sp-text'
+            }`}
+            aria-current={isActive ? 'page' : undefined}
+          >
+            <span>{link.label}</span>
+            <span class={`nav-indicator absolute bottom-0 left-0 right-0 h-0.5 bg-sp-primary rounded-full transition-all duration-200 ${isActive ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'}`} />
+          </a>
+        );
+      })}
+    </nav>
+
+    <!-- Controles da Direita (Tema + WhatsApp CTA + Hambúrguer Mobile) -->
+    <div class="flex items-center gap-3">
+      <!-- Botão CTA Desktop -->
+      <a
+        href={whatsappHeaderUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-sp-primary hover:bg-sp-primary-hover shadow-xs transition-all active:scale-95"
+      >
+        <span>Diagnóstico Gratuito</span>
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M7 17L17 7M17 7H7M17 7V17" />
+        </svg>
+      </a>
+
+      <ThemeToggle />
+
+      <!-- Botão Hambúrguer Mobile -->
+      <button
+        id="mobile-menu-btn"
+        type="button"
+        class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-sp-border text-sp-text hover:bg-sp-surface transition-colors"
+        aria-label="Abrir Menu"
+        aria-expanded="false"
+      >
+        <svg id="menu-icon-open" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menu Mobile Desdobrável -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-sp-border bg-sp-bg-elevated px-4 py-4 space-y-3">
+    {navLinks.map((link) => {
+      const isActive = currentPath === link.href || (link.href !== '/' && !link.href.startsWith('/#') && currentPath.startsWith(link.href));
+      return (
+        <a
+          href={link.href}
+          data-mobile-nav-href={link.href}
+          class={`mobile-nav-link block py-2 px-3 text-base font-medium rounded-lg transition-colors ${
+            isActive
+              ? 'bg-sp-surface text-sp-primary font-semibold'
+              : 'text-sp-text hover:bg-sp-surface hover:text-sp-primary'
+          }`}
+        >
+          {link.label}
+        </a>
+      );
+    })}
+
+    <div class="pt-2 border-t border-sp-border">
+      <a
+        href={whatsappHeaderUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-sp-primary hover:bg-sp-primary-hover shadow-sm transition-all"
+      >
+        <span>Solicitar Diagnóstico via WhatsApp</span>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M7 17L17 7M17 7H7M17 7V17" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  function setupHeaderInteractions() {
+    // 1. Mobile Menu
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const openIcon = document.getElementById('menu-icon-open');
+    const closeIcon = document.getElementById('menu-icon-close');
+
+    if (btn && menu) {
+      btn.onclick = () => {
+        const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', !isExpanded);
+        menu.classList.toggle('hidden');
+        openIcon?.classList.toggle('hidden');
+        closeIcon?.classList.toggle('hidden');
+      };
+
+      // Fecha o menu mobile ao clicar em qualquer link
+      menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          menu.classList.add('hidden');
+          btn.setAttribute('aria-expanded', 'false');
+          openIcon?.classList.remove('hidden');
+          closeIcon?.classList.add('hidden');
+        });
+      });
+    }
+
+    // 2. Active Nav Highlighting (Scroll & Hash Spy)
+    const isHome = window.location.pathname === '/' || window.location.pathname === '';
+    
+    function updateActiveState() {
+      let activeHref = window.location.pathname;
+
+      if (isHome) {
+        const servicosSection = document.getElementById('servicos');
+        const hash = window.location.hash;
+        
+        let inServicos = false;
+        if (hash === '#servicos') {
+          inServicos = true;
+        } else if (servicosSection) {
+          const rect = servicosSection.getBoundingClientRect();
+          // Ativa quando a seção de serviços está no campo visual útil
+          if (rect.top <= 200 && rect.bottom >= 150) {
+            inServicos = true;
+          }
+        }
+
+        activeHref = inServicos ? '/#servicos' : '/';
+      } else {
+        if (window.location.pathname.startsWith('/blog')) activeHref = '/blog';
+        else if (window.location.pathname.startsWith('/sobre')) activeHref = '/sobre';
+      }
+
+      // Atualiza Desktop
+      document.querySelectorAll('[data-nav-href]').forEach((el) => {
+        const href = el.getAttribute('data-nav-href');
+        const indicator = el.querySelector('.nav-indicator');
+        const isTarget = href === activeHref;
+
+        if (isTarget) {
+          el.classList.add('text-sp-primary', 'font-semibold');
+          el.classList.remove('hover:text-sp-text');
+          el.setAttribute('aria-current', 'page');
+          if (indicator) {
+            indicator.classList.remove('opacity-0', 'scale-x-0');
+            indicator.classList.add('opacity-100', 'scale-x-100');
+          }
+        } else {
+          el.classList.remove('text-sp-primary', 'font-semibold');
+          el.classList.add('hover:text-sp-text');
+          el.removeAttribute('aria-current');
+          if (indicator) {
+            indicator.classList.remove('opacity-100', 'scale-x-100');
+            indicator.classList.add('opacity-0', 'scale-x-0');
+          }
+        }
+      });
+
+      // Atualiza Mobile
+      document.querySelectorAll('[data-mobile-nav-href]').forEach((el) => {
+        const href = el.getAttribute('data-mobile-nav-href');
+        const isTarget = href === activeHref;
+        if (isTarget) {
+          el.classList.add('bg-sp-surface', 'text-sp-primary', 'font-semibold');
+          el.classList.remove('text-sp-text');
+        } else {
+          el.classList.remove('bg-sp-surface', 'text-sp-primary', 'font-semibold');
+          el.classList.add('text-sp-text');
+        }
+      });
+    }
+
+    // Eventos de clique para resposta instantânea
+    document.querySelectorAll('[data-nav-href], [data-mobile-nav-href]').forEach((link) => {
+      link.addEventListener('click', () => {
+        setTimeout(updateActiveState, 50);
+      });
+    });
+
+    window.addEventListener('hashchange', updateActiveState);
+    if (isHome) {
+      window.addEventListener('scroll', updateActiveState, { passive: true });
+    }
+
+    updateActiveState();
+  }
+
+  setupHeaderInteractions();
+  document.addEventListener('astro:page-load', setupHeaderInteractions);
+</script>

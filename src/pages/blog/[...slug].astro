@@ -1,0 +1,34 @@
+---
+import { getCollection, render } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/\.(md|mdx)$/, '') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+
+// Cálculo dinâmico de tempo de leitura
+const words = post.body ? post.body.split(/\s+/).length : 600;
+const readingTimeMinutes = Math.max(3, Math.ceil(words / 200));
+---
+
+<PostLayout
+  title={post.data.title}
+  description={post.data.description}
+  pubDate={post.data.pubDate}
+  updatedDate={post.data.updatedDate}
+  heroImage={post.data.heroImage}
+  tags={post.data.tags}
+  author={post.data.author}
+  affiliateDisclosure={post.data.affiliateDisclosure}
+  readingTimeMinutes={readingTimeMinutes}
+  headings={headings}
+>
+  <Content />
+</PostLayout>

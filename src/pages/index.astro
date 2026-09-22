@@ -1,0 +1,431 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogCard from '../components/blog/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+// Busca artigos ativos ordenados pela data mais recente
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const latestPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+
+const whatsappDiagnosticUrl =
+  'https://wa.me/5519989161240?text=Ol%C3%A1%2C%20Heliezer!%20Vim%20pelo%20portal%20Pequeno%20Empres%C3%A1rio%20e%20gostaria%20de%20solicitar%20um%20diagn%C3%B3stico%20digital%20gratuito%20para%20minha%20empresa.';
+
+const solutionsOffered = [
+  {
+    step: '01',
+    icon: '🧭',
+    image: '/icons/pilar-1-diagnostico.png',
+    title: 'Diagnóstico & Estratégia',
+    category: 'Inteligência & Direção',
+    desc: 'Análise minuciosa da situação atual da sua empresa na internet para identificar onde você está perdendo clientes e desenhar um plano de ação enxuto e viável.',
+    items: [
+      'Diagnóstico de presença digital e concorrentes locais',
+      'Métricas reais e rastreamento de conversão (ROI)',
+      'Plano de ação focado em vendas a curto prazo',
+    ],
+    whatsappMsg: 'Olá, Heliezer! Gostaria de agendar um diagnóstico digital para a minha empresa.',
+  },
+  {
+    step: '02',
+    icon: '⚡',
+    image: '/icons/pilar-2-sites-rapidos.png',
+    title: 'Presença Própria & Sites Rápidos',
+    category: 'Estrutura & Velocidade',
+    desc: 'Criação de sites e landing pages ultrarrápidas, projetadas para abrir instantaneamente no celular do cliente e direcionar o contato para o WhatsApp sem distrações.',
+    items: [
+      'Páginas ultraleves com nota máxima no Google (Core Web Vitals)',
+      'Design responsivo com foco em conversão no WhatsApp',
+      'Lojas virtuais e catálogos enxutos para comércio local',
+    ],
+    whatsappMsg: 'Olá, Heliezer! Quero criar um site ou landing page de alta velocidade para minha empresa.',
+  },
+  {
+    step: '03',
+    icon: '📍',
+    image: '/icons/pilar-3-google-maps.png',
+    title: 'Google Maps & Atração Local',
+    category: 'Visibilidade & Tráfego',
+    desc: 'Colocamos sua empresa na frente de clientes que estão procurando seu produto ou serviço na sua região no exato momento em que precisam dele.',
+    items: [
+      'Otimização completa do Google Meu Negócio / Maps',
+      'SEO para buscas locais sem depender de pagar por clique',
+      'Anúncios no Meta Ads e Google Ads com verba protegida',
+    ],
+    whatsappMsg: 'Olá, Heliezer! Quero atrair novos clientes na minha região com Google Maps e anúncios.',
+  },
+  {
+    step: '04',
+    icon: '💬',
+    image: '/icons/pilar-4-whatsapp.png',
+    title: 'Fechamento & Vendas no WhatsApp',
+    category: 'Conversão & Retenção',
+    desc: 'Estruturação de canais de atendimento para acabar com o "vácuo" pós-orçamento e transformar curiosos em clientes fiéis que compram novamente.',
+    items: [
+      'Roteiros práticos para responder preços e fechar orçamentos',
+      'Estratégias de follow-up em 72h sem parecer inconveniente',
+      'E-mail marketing e campanhas de reativação de clientes',
+    ],
+    whatsappMsg: 'Olá, Heliezer! Quero melhorar o fechamento de vendas e atendimento no WhatsApp.',
+  },
+];
+---
+
+<BaseLayout
+  title="Pequeno Empresário — Tecnologia e Marketing para Pequenos Negócios"
+  description="Apoiamos o pequeno empreendedor a superar a barreira da inserção digital com tecnologia sólida e estratégias práticas de marketing: sites de alta velocidade, SEO local no Google Maps e vendas no WhatsApp."
+>
+  <!-- Hero Section -->
+  <section class="relative pt-16 sm:pt-24 pb-16 sm:pb-24 overflow-hidden border-b border-sp-border">
+    <!-- Fundo com gradiente radial sutil -->
+    <div class="absolute inset-0 bg-gradient-to-b from-sp-primary-soft/40 via-transparent to-transparent pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+      <div class="max-w-3xl space-y-6">
+        <!-- Eyebrow Badge -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-sp-border bg-sp-bg-elevated text-xs font-bold uppercase tracking-wider text-sp-primary shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-sp-primary animate-pulse"></span>
+          Inserção Digital para Pequenas Empresas
+        </div>
+
+        <!-- Título H1 Forte -->
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-sp-text leading-[1.15]">
+          <span class="text-sp-primary underline decoration-sp-primary/30 underline-offset-8">Tecnologia e marketing prático</span> para tirar sua empresa do anonimato e faturar mais todo mês.
+        </h1>
+
+        <!-- Subtítulo Explicativo -->
+        <p class="text-lg sm:text-xl text-sp-text-muted leading-relaxed max-w-2xl font-normal">
+          Ajudamos o pequeno empreendedor a vencer as barreiras do digital: sem depender de agências abusivas, sem ferramentas pesadas e complicadas e com foco absoluto no que coloca clientes no seu caixa.
+        </p>
+
+        <!-- Selos de Credibilidade Rápida -->
+        <div class="flex flex-wrap gap-3 pt-2 text-xs font-medium text-sp-text-muted">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-sp-bg-card border border-sp-border">
+            <span class="text-sp-primary font-bold">⚡</span> Sites rápidos (100/100 Core Web Vitals)
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-sp-bg-card border border-sp-border">
+            <span class="text-sp-primary font-bold">📍</span> Destaque no Google Maps e buscas locais
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-sp-bg-card border border-sp-border">
+            <span class="text-sp-primary font-bold">👨‍💻</span> Atendimento com 20 anos de experiência em TI
+          </span>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="flex flex-wrap items-center gap-4 pt-4">
+          <a
+            href={whatsappDiagnosticUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider text-white bg-sp-primary hover:bg-sp-primary-hover transition-all duration-150 shadow-md active:scale-95"
+          >
+            <span>Solicitar Diagnóstico Gratuito</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M7 17L17 7M17 7H7M17 7V17" />
+            </svg>
+          </a>
+
+          <a
+            href="#solucoes"
+            class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider text-sp-text bg-sp-bg-elevated hover:bg-sp-surface border border-sp-border transition-all duration-150 active:scale-95"
+          >
+            Conhecer Nossas Soluções
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção: A Realidade da Inserção Digital (As Dores do Pequeno Empresário) -->
+  <section class="py-16 sm:py-24 border-b border-sp-border bg-sp-bg-card">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <span class="text-xs font-extrabold uppercase tracking-wider text-sp-primary">
+          O Desafio Real
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-sp-text tracking-tight">
+          Por que é tão difícil para o pequeno empresário ter resultados na internet?
+        </h2>
+        <p class="text-sm sm:text-base text-sp-text-muted leading-relaxed">
+          Você já deve ter sentido na pele: o mercado digital parece ter sido feito apenas para quem tem muito dinheiro para queimar ou tempo infinito para produzir dancinhas.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <!-- Card 1: Terreno Alugado -->
+        <div class="p-7 rounded-2xl border border-sp-border bg-sp-bg-elevated space-y-4 hover:border-sp-primary/40 transition-colors">
+          <div class="w-12 h-12 rounded-xl bg-sp-primary-soft text-sp-primary flex items-center justify-center text-2xl font-bold">
+            📱
+          </div>
+          <h3 class="text-xl font-bold text-sp-text">
+            A Armadilha do "Só Redes Sociais"
+          </h3>
+          <p class="text-sm text-sp-text-muted leading-relaxed">
+            Depender exclusivamente de Instagram ou TikTok é construir em terreno alugado. Quando o algoritmo muda ou o alcance cai, suas vendas despencam junto. Quem precisa do seu serviço com urgência pesquisa no <strong>Google</strong>, não fica rolando feed.
+          </p>
+        </div>
+
+        <!-- Card 2: Agências Caras e Ineficientes -->
+        <div class="p-7 rounded-2xl border border-sp-border bg-sp-bg-elevated space-y-4 hover:border-sp-primary/40 transition-colors">
+          <div class="w-12 h-12 rounded-xl bg-sp-primary-soft text-sp-primary flex items-center justify-center text-2xl font-bold">
+            💸
+          </div>
+          <h3 class="text-xl font-bold text-sp-text">
+            Contratos Abusivos de Agências
+          </h3>
+          <p class="text-sm text-sp-text-muted leading-relaxed">
+            Mensalidades de R$ 3.000 a R$ 8.000 em contratos engessados de 12 meses que entregam relatórios com "métricas de vaidade" (alcance, impressões, curtidas), mas que raramente se traduzem em clientes pagantes e dinheiro no caixa.
+          </p>
+        </div>
+
+        <!-- Card 3: Complexidade Técnica e Sites Lentos -->
+        <div class="p-7 rounded-2xl border border-sp-border bg-sp-bg-elevated space-y-4 hover:border-sp-primary/40 transition-colors">
+          <div class="w-12 h-12 rounded-xl bg-sp-primary-soft text-sp-primary flex items-center justify-center text-2xl font-bold">
+            🐌
+          </div>
+          <h3 class="text-xl font-bold text-sp-text">
+            Complexidade & Sites que Travam
+          </h3>
+          <p class="text-sm text-sp-text-muted leading-relaxed">
+            Sites pesados em WordPress cheios de plugins que quebram, páginas lentas que fazem o cliente desistir no celular em 3 segundos e jargões complicados que fazem o empresário se sentir incapaz de gerenciar o próprio negócio no digital.
+          </p>
+        </div>
+      </div>
+
+      <!-- Caixa de Posicionamento Central -->
+      <div class="p-6 sm:p-8 rounded-2xl border-2 border-sp-primary/30 bg-sp-primary-soft/20 text-center max-w-4xl mx-auto space-y-3">
+        <h4 class="text-lg sm:text-xl font-extrabold text-sp-text">
+          O portal <span class="text-sp-primary">Pequeno Empresário</span> é o antídoto para essa confusão.
+        </h4>
+        <p class="text-sm sm:text-base text-sp-text-muted max-w-2xl mx-auto leading-relaxed">
+          Unimos <strong>tecnologia e estratégias práticas</strong> para a sua empresa se posicionar com destaque onde o cliente realmente procura: <strong>Google Meu Negócio, Google Maps, SEO, GEO (buscas por IA), anúncios locais e WhatsApp</strong>. Sem enrolação, sem intermediários e focado no seu ROI.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção de Soluções Práticas -->
+  <section id="solucoes" class="scroll-mt-16 py-16 sm:py-24 border-b border-sp-border bg-sp-bg-elevated/30">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <span class="text-xs font-extrabold uppercase tracking-wider text-sp-primary">
+          Como Podemos Ajudar
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-sp-text tracking-tight">
+          Nossas Soluções de Inserção Digital
+        </h2>
+        <p class="text-sm sm:text-base text-sp-text-muted leading-relaxed">
+          Os 4 pilares essenciais para estruturar a presença da sua empresa na internet e atrair clientes todos os dias.
+        </p>
+      </div>
+
+      <!-- Grid dos 4 Cards de Soluções -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {solutionsOffered.map((pillar) => (
+          <div class="p-6 rounded-2xl border border-sp-border bg-sp-bg-card hover:border-sp-primary/50 transition-all duration-200 shadow-xs flex flex-col justify-between group">
+            <div class="space-y-4">
+              <!-- Topo do Card: Ícone e Badge -->
+              <div class="flex items-center justify-between">
+                <div class="w-12 h-12 rounded-xl bg-sp-bg-elevated border border-sp-border p-1.5 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-200">
+                  <img src={pillar.image} alt={pillar.title} class="w-9 h-9 object-contain" width="36" height="36" loading="lazy" />
+                </div>
+                <span class="text-xs font-mono font-black text-sp-primary px-2.5 py-0.5 rounded-full bg-sp-primary-soft border border-sp-primary/20">
+                  {pillar.step}
+                </span>
+              </div>
+
+              <!-- Título & Categoria -->
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-sp-primary block mb-1">
+                  {pillar.category}
+                </span>
+                <h3 class="text-lg font-extrabold text-sp-text tracking-tight group-hover:text-sp-primary transition-colors">
+                  {pillar.title}
+                </h3>
+              </div>
+
+              <p class="text-xs text-sp-text-muted leading-relaxed">
+                {pillar.desc}
+              </p>
+
+              <!-- Lista Sucinta -->
+              <div class="pt-3 border-t border-sp-border/60 space-y-2">
+                {pillar.items.map((item) => (
+                  <div class="text-[11px] text-sp-text flex items-start gap-1.5">
+                    <span class="text-sp-primary font-bold shrink-0">•</span>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <!-- Botão Direto para o WhatsApp deste pilar -->
+            <div class="pt-6 mt-4 border-t border-sp-border/60">
+              <a
+                href={`https://wa.me/5519989161240?text=${encodeURIComponent(pillar.whatsappMsg)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold text-sp-primary hover:text-white bg-sp-primary-soft hover:bg-sp-primary transition-all duration-150"
+              >
+                <span>Falar sobre este pilar</span>
+                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M7 17L17 7M17 7H7M17 7V17" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção de Autoridade: A Experiência em Tecnologia a Serviço do Pequeno Negócio -->
+  <section class="py-16 sm:py-24 max-w-6xl mx-auto px-4 sm:px-6 border-b border-sp-border">
+    <div class="p-8 sm:p-12 rounded-3xl border border-sp-border bg-sp-bg-card relative overflow-hidden shadow-sm">
+      <div class="flex flex-col lg:flex-row items-center lg:items-start gap-8 sm:gap-12">
+        <div class="shrink-0 text-center">
+          <img
+            src="/images/heliezer-garcia.webp"
+            alt="Heliezer Garcia — Pequeno Empresário"
+            width="140"
+            height="140"
+            loading="lazy"
+            decoding="async"
+            class="w-32 h-32 sm:w-36 sm:h-36 rounded-2xl object-cover border-4 border-sp-primary/30 shadow-md mx-auto"
+          />
+          <div class="mt-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-sp-primary-soft text-sp-primary">
+              <span class="w-2 h-2 rounded-full bg-sp-primary"></span>
+              Fundador & Especialista
+            </span>
+          </div>
+        </div>
+
+        <div class="space-y-4 text-center lg:text-left">
+          <div class="space-y-1">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-sp-text tracking-tight">
+              Heliezer Garcia
+            </h2>
+            <p class="text-sm font-semibold uppercase tracking-wider text-sp-primary">
+              Engenharia de Tecnologia & Estratégia Digital
+            </p>
+          </div>
+
+          <div class="space-y-3 text-sm sm:text-base text-sp-text-muted leading-relaxed max-w-3xl">
+            <p>
+              Atuo há <strong>quase 20 anos no setor de tecnologia</strong>, desenvolvendo softwares, sistemas críticos e soluções de alta escalabilidade para grandes corporações (com passagens e consultorias para organizações como <strong>IBM, Claro/Embratel e Petrobras</strong>).
+            </p>
+            <p>
+              Ao longo dessa jornada corporativa, ficou evidente por que as grandes corporações dominam seus mercados: <strong>elas utilizam a tecnologia com inteligência, velocidade e precisão matemática</strong>. Enquanto isso, o pequeno empresário brasileiro fica refém de soluções amadoras, sites lentos e promessas vazias de marketing.
+            </p>
+            <p class="font-medium text-sp-text">
+              Em 2026, meu compromisso com o <strong>Pequeno Empresário</strong> é direto: colocar essa mesma bagagem técnica corporativa de ponta a favor do seu negócio, traduzida em páginas rápidas, posicionamento no Google e vendas no seu WhatsApp.
+            </p>
+          </div>
+
+          <!-- Links de Credibilidade -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-3">
+            <a
+              href="https://www.linkedin.com/in/heliezer-garcia/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-sp-text bg-sp-bg-elevated hover:bg-sp-surface border border-sp-border hover:border-sp-primary/50 transition-all shadow-xs"
+            >
+              <svg class="w-4 h-4 text-[#0a66c2]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+              </svg>
+              <span>Ver Trajetória no LinkedIn</span>
+            </a>
+
+            <a
+              href="/sobre"
+              class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-sp-primary hover:text-sp-primary-hover hover:underline transition-all"
+            >
+              <span>Conhecer o Manifesto Completo</span>
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção de Guias Práticos & Conhecimento Aberto -->
+  <section class="py-16 sm:py-24 max-w-6xl mx-auto px-4 sm:px-6 border-b border-sp-border">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+      <div>
+        <span class="text-xs font-extrabold uppercase tracking-wider text-sp-primary">
+          Conhecimento Aberto
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-sp-text tracking-tight mt-1">
+          Guias Práticos para o Pequeno Negócio
+        </h2>
+        <p class="text-sm text-sp-text-muted mt-2 max-w-xl">
+          Além de implementar soluções, compartilhamos o passo a passo de como estruturar seu negócio na prática.
+        </p>
+      </div>
+      <a
+        href="/blog"
+        class="text-xs sm:text-sm font-bold uppercase tracking-wider text-sp-primary hover:text-sp-primary-hover flex items-center gap-1.5 transition-colors"
+      >
+        <span>Ver todos os artigos ({allPosts.length})</span>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+      {latestPosts.map((post) => (
+        <BlogCard
+          title={post.data.title}
+          description={post.data.description}
+          slug={post.id.replace(/\.(md|mdx)$/, '')}
+          pubDate={post.data.pubDate}
+          tags={post.data.tags}
+          author={post.data.author}
+          readingTimeMinutes={Math.max(3, Math.ceil((post.body?.split(/\s+/).length ?? 600) / 200))}
+        />
+      ))}
+    </div>
+  </section>
+
+  <!-- Banner CTA Final de Conversão -->
+  <section class="py-16 sm:py-20 bg-sp-bg-elevated/40">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="rounded-3xl border border-sp-border bg-sp-bg-card p-8 sm:p-12 shadow-md relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+        <!-- Detalhe decorativo de fundo -->
+        <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-sp-primary/10 blur-3xl pointer-events-none"></div>
+
+        <div class="space-y-4 max-w-xl text-center md:text-left relative z-10">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-sp-primary-soft text-sp-primary">
+            Próximo Passo
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-sp-text tracking-tight">
+            Pronto para destravar as vendas digitais da sua empresa?
+          </h2>
+          <p class="text-sm sm:text-base text-sp-text-muted leading-relaxed">
+            Converse diretamente com <strong>Heliezer Garcia</strong>. Faremos uma análise objetiva da sua presença atual e traçaremos o caminho mais rápido para atrair clientes reais no seu WhatsApp.
+          </p>
+        </div>
+
+        <div class="shrink-0 relative z-10 w-full md:w-auto">
+          <a
+            href={whatsappDiagnosticUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full md:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl font-bold text-sm uppercase tracking-wider text-white bg-sp-primary hover:bg-sp-primary-hover shadow-lg transition-all active:scale-95"
+          >
+            <span>Falar no WhatsApp Agora</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M7 17L17 7M17 7H7M17 7V17" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

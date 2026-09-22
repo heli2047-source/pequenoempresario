@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 — Página Não Encontrada"
+  description="A página que você procurava não existe ou mudou de endereço."
+>
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 py-24 sm:py-32 text-center space-y-6">
+    <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-sp-primary-soft text-sp-primary mb-2 shadow-sm">
+      <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 20h18" />
+        <path d="M5 20V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12" />
+        <path d="M9 12h6" />
+        <path d="M12 9v6" />
+      </svg>
+    </div>
+
+    <span class="block text-xs font-mono font-extrabold uppercase tracking-widest text-sp-primary">Erro 404</span>
+
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-sp-text tracking-tight">
+      Essa página não foi encontrada.
+    </h1>
+
+    <p class="text-base sm:text-lg text-sp-text-muted leading-relaxed max-w-md mx-auto">
+      O link que você seguiu pode ter sido alterado ou o conteúdo foi reorganizado.
+    </p>
+
+    <div class="pt-6 flex flex-wrap items-center justify-center gap-4">
+      <a
+        href="/"
+        class="px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-sp-primary hover:bg-sp-primary-hover transition-colors shadow-sm"
+      >
+        Voltar ao Início
+      </a>
+      <a
+        href="/blog"
+        class="px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-sp-text bg-sp-bg-elevated hover:bg-sp-surface border border-sp-border transition-colors"
+      >
+        Explorar Todos os Artigos
+      </a>
+    </div>
+  </div>
+</BaseLayout>

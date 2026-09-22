@@ -1,0 +1,96 @@
+---
+import { servicePillars } from '../../data/services';
+
+const whatsappBase = 'https://wa.me/5519989161240?text=';
+---
+
+<div class="space-y-12">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    {servicePillars.map((pillar) => (
+      <div 
+        id={pillar.id}
+        class="flex flex-col rounded-3xl border border-sp-border bg-sp-bg-card hover:border-sp-primary/40 transition-all duration-300 shadow-sm overflow-hidden group"
+      >
+        <!-- Cabeçalho do Pilar -->
+        <div class="p-6 sm:p-8 border-b border-sp-border bg-sp-bg-elevated/40 relative">
+          <div class="flex items-center justify-between gap-4 mb-4">
+            <span class="text-3xl sm:text-4xl p-2.5 rounded-2xl bg-sp-bg-card border border-sp-border shadow-xs">
+              {pillar.icon}
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-sp-primary-soft text-sp-primary border border-sp-primary/20">
+              {pillar.category}
+            </span>
+          </div>
+
+          <h3 class="text-2xl font-extrabold text-sp-text tracking-tight group-hover:text-sp-primary transition-colors">
+            {pillar.title}
+          </h3>
+
+          <p class="text-sm font-semibold text-sp-text-muted mt-1">
+            {pillar.tagline}
+          </p>
+
+          <p class="text-sm text-sp-text-muted mt-3 leading-relaxed">
+            {pillar.description}
+          </p>
+        </div>
+
+        <!-- Lista de Serviços Específicos -->
+        <div class="p-6 sm:p-8 space-y-6 flex-1">
+          {pillar.services.map((sub) => (
+            <div class="p-4 sm:p-5 rounded-2xl border border-sp-border bg-sp-bg-elevated/20 hover:bg-sp-surface/50 transition-colors space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <h4 class="text-base font-bold text-sp-text tracking-tight flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-sp-primary"></span>
+                  {sub.title}
+                </h4>
+                {sub.badge && (
+                  <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-md bg-sp-bg-card text-sp-text-muted border border-sp-border">
+                    {sub.badge}
+                  </span>
+                )}
+              </div>
+
+              <p class="text-xs sm:text-sm text-sp-text-muted leading-relaxed">
+                {sub.description}
+              </p>
+
+              {sub.deliverables && (
+                <ul class="pt-2 grid grid-cols-1 gap-1.5 text-xs text-sp-text-muted">
+                  {sub.deliverables.map((item) => (
+                    <li class="flex items-start gap-2">
+                      <svg class="w-3.5 h-3.5 text-sp-primary shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <!-- Rodapé do Card com CTA dedicado -->
+        <div class="p-6 sm:px-8 py-5 border-t border-sp-border bg-sp-bg-elevated/30 mt-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <span class="text-xs text-sp-text-muted">
+            Solução sob medida para sua empresa
+          </span>
+
+          <a
+            href={`${whatsappBase}${encodeURIComponent(pillar.whatsappMessage)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider text-white bg-sp-primary hover:bg-sp-primary-hover shadow-sm transition-all duration-150 active:scale-95"
+            aria-label={`Consultar ${pillar.title} via WhatsApp`}
+          >
+            <span>Consultar este pilar</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

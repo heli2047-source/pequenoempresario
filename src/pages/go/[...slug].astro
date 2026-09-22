@@ -1,0 +1,81 @@
+---
+import affiliateLinks from '../../data/affiliate-links.json';
+
+export async function getStaticPaths() {
+  return Object.entries(affiliateLinks).map(([slug, data]) => ({
+    params: { slug },
+    props: {
+      slug,
+      targetUrl: data.targetUrl,
+      title: data.title,
+    },
+  }));
+}
+
+const { targetUrl, title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecionando para {title} — Pequeno Empresário</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <!-- Meta Refresh Instantâneo -->
+    <meta http-equiv="refresh" content={`0;url=${targetUrl}`} />
+    <link rel="canonical" href={targetUrl} />
+    <script is:inline define:vars={{ targetUrl }}>
+      window.location.replace(targetUrl);
+    </script>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        background-color: #09090b;
+        color: #f4f4f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 1.5rem;
+      }
+      .card {
+        background-color: #18181b;
+        border: 1px solid #27272a;
+        padding: 2rem;
+        border-radius: 1rem;
+        max-width: 440px;
+        text-align: center;
+      }
+      a {
+        color: #2563eb;
+        font-weight: 600;
+        text-decoration: underline;
+      }
+      .spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid rgba(37, 99, 235, 0.2);
+        border-top-color: #2563eb;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 1.5rem;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="spinner"></div>
+      <h2 style="margin-top:0; font-size:1.25rem;">Redirecionando com segurança...</h2>
+      <p style="color:#a1a1aa; font-size:0.9rem; line-height:1.5;">
+        Você está sendo transferido para <strong>{title}</strong>.
+      </p>
+      <p style="font-size:0.8rem; margin-top:1.5rem;">
+        Se a página não carregar em instantes, <a href={targetUrl} rel="sponsored nofollow noopener noreferrer">clique aqui diretamente</a>.
+      </p>
+    </div>
+  </body>
+</html>

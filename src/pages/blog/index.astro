@@ -1,0 +1,363 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Coleta todas as tags únicas
+const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags || [])));
+---
+
+<BaseLayout
+  title="Guias & Artigos Práticos — Pequeno Empresário"
+  description="Arquivo de guias práticos de tecnologia, marketing digital, SEO local e vendas para apoiar o pequeno empresário."
+>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+    <!-- Cabeçalho da Página do Blog -->
+    <div class="max-w-3xl space-y-4 mb-12">
+      <span class="text-xs font-extrabold uppercase tracking-wider text-sp-primary">Conhecimento Aberto</span>
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-sp-text">
+        Guias Práticos para o Pequeno Negócio
+      </h1>
+      <p class="text-base sm:text-lg text-sp-text-muted leading-relaxed">
+        Artigos objetivos, sem floreios. Cada texto é pensado para ser lido em poucos minutos e aplicado diretamente no seu negócio.
+      </p>
+    </div>
+
+    <!-- Barra de Busca & Filtro de Tags -->
+    <div class="space-y-6 pb-8 mb-10 border-b border-sp-border">
+      <!-- Campo de Busca em Destaque -->
+      <div class="relative max-w-xl">
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Buscar artigos por palavra-chave, título ou assunto..."
+          class="w-full px-4 py-3 pl-11 text-sm rounded-2xl border border-sp-border bg-sp-bg-card text-sp-text placeholder-sp-text-dim focus:border-sp-primary focus:ring-2 focus:ring-sp-primary/20 shadow-xs transition-all outline-none"
+        />
+        <svg class="w-5 h-5 text-sp-text-dim absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+
+      <!-- Filtro de Categorias / Tags -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-xs font-bold uppercase tracking-wider text-sp-text-dim mr-1">Filtrar:</span>
+        <button
+          type="button"
+          class="tag-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-sp-primary text-white shadow-xs transition-all"
+          data-tag="all"
+        >
+          Todas ({sortedPosts.length})
+        </button>
+        {allTags.map((tag) => (
+          <button
+            type="button"
+            class="tag-filter-btn px-3 py-1.5 rounded-full text-xs font-medium uppercase tracking-wider bg-sp-bg-elevated hover:bg-sp-surface text-sp-text-muted hover:text-sp-primary border border-sp-border transition-all"
+            data-tag={tag}
+          >
+            #{tag}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Barra de Status & Seletor de Itens por Página -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-sp-text-muted mb-6">
+      <div id="pagination-status" class="font-medium">
+        Exibindo <strong class="text-sp-text">1–{sortedPosts.length}</strong> de <strong class="text-sp-text">{sortedPosts.length}</strong> artigos
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-sp-text-dim font-medium">Por página:</span>
+        <div class="inline-flex rounded-lg border border-sp-border p-0.5 bg-sp-bg-elevated" id="page-size-selector">
+          <button
+            type="button"
+            class="page-size-btn px-2.5 py-1 rounded-md text-xs font-bold transition-all bg-sp-primary text-white shadow-xs"
+            data-size="10"
+          >
+            10
+          </button>
+          <button
+            type="button"
+            class="page-size-btn px-2.5 py-1 rounded-md text-xs font-medium text-sp-text-muted hover:text-sp-primary transition-all"
+            data-size="25"
+          >
+            25
+          </button>
+          <button
+            type="button"
+            class="page-size-btn px-2.5 py-1 rounded-md text-xs font-medium text-sp-text-muted hover:text-sp-primary transition-all"
+            data-size="50"
+          >
+            50
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid de Artigos -->
+    <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+      {sortedPosts.map((post) => (
+        <div
+          class="post-item"
+          data-tags={JSON.stringify(post.data.tags || [])}
+          data-title={post.data.title.toLowerCase()}
+          data-description={post.data.description.toLowerCase()}
+        >
+          <BlogCard
+            title={post.data.title}
+            description={post.data.description}
+            slug={post.id.replace(/\.(md|mdx)$/, '')}
+            pubDate={post.data.pubDate}
+            tags={post.data.tags}
+            author={post.data.author}
+            readingTimeMinutes={Math.max(3, Math.ceil((post.body?.split(/\s+/).length ?? 600) / 200))}
+          />
+        </div>
+      ))}
+    </div>
+
+    <!-- Controles de Paginação Inferiores -->
+    <div id="pagination-nav" class="hidden flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-8 border-t border-sp-border">
+      <div class="text-xs text-sp-text-muted">
+        Página <strong id="current-page-display" class="text-sp-text">1</strong> de <strong id="total-pages-display" class="text-sp-text">1</strong>
+      </div>
+      <div class="flex items-center gap-1.5" id="pagination-buttons">
+        <!-- Renderizado dinamicamente -->
+      </div>
+    </div>
+
+    <!-- Mensagem de Nenhum Resultado -->
+    <div id="no-results" class="hidden text-center py-16 space-y-3">
+      <span class="text-4xl block">🔍</span>
+      <p class="text-lg font-bold text-sp-text">Nenhum artigo encontrado</p>
+      <p class="text-sm text-sp-text-muted">Tente ajustar o termo de pesquisa ou selecionar outra categoria.</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  function setupBlogFiltering() {
+    const filterButtons = document.querySelectorAll('.tag-filter-btn');
+    const searchInput = document.getElementById('search-input');
+    const postItems = Array.from(document.querySelectorAll('.post-item'));
+    const noResults = document.getElementById('no-results');
+    const paginationNav = document.getElementById('pagination-nav');
+    const paginationStatus = document.getElementById('pagination-status');
+    const currentPageDisplay = document.getElementById('current-page-display');
+    const totalPagesDisplay = document.getElementById('total-pages-display');
+    const paginationButtons = document.getElementById('pagination-buttons');
+    const pageSizeButtons = document.querySelectorAll('.page-size-btn');
+
+    let currentTag = 'all';
+    let searchQuery = '';
+    let currentPage = 1;
+    let pageSize = parseInt(localStorage.getItem('pequenonegocio-blog-pagesize') || '10', 10);
+    if (![10, 25, 50].includes(pageSize)) pageSize = 10;
+
+    // Atualiza botões de tamanho de página
+    function updatePageSizeButtons() {
+      pageSizeButtons.forEach((btn) => {
+        const size = parseInt(btn.getAttribute('data-size') || '10', 10);
+        if (size === pageSize) {
+          btn.className = 'page-size-btn px-2.5 py-1 rounded-md text-xs font-bold transition-all bg-sp-primary text-white shadow-xs';
+        } else {
+          btn.className = 'page-size-btn px-2.5 py-1 rounded-md text-xs font-medium text-sp-text-muted hover:text-sp-primary transition-all';
+        }
+      });
+    }
+
+    // Verifica parâmetro ?tag= na URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialTag = urlParams.get('tag');
+    if (initialTag) {
+      currentTag = initialTag;
+    }
+
+    function renderPagination(totalMatched) {
+      const totalPages = Math.max(1, Math.ceil(totalMatched / pageSize));
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      if (currentPageDisplay) currentPageDisplay.textContent = String(currentPage);
+      if (totalPagesDisplay) totalPagesDisplay.textContent = String(totalPages);
+
+      if (paginationStatus) {
+        if (totalMatched === 0) {
+          paginationStatus.innerHTML = 'Nenhum artigo encontrado';
+        } else {
+          const startIdx = (currentPage - 1) * pageSize + 1;
+          const endIdx = Math.min(totalMatched, currentPage * pageSize);
+          paginationStatus.innerHTML = `Exibindo <strong class="text-sp-text">${startIdx}–${endIdx}</strong> de <strong class="text-sp-text">${totalMatched}</strong> artigos`;
+        }
+      }
+
+      if (paginationNav) {
+        if (totalMatched === 0 || totalPages <= 1) {
+          paginationNav.classList.add('hidden');
+        } else {
+          paginationNav.classList.remove('hidden');
+        }
+      }
+
+      if (paginationButtons && totalPages > 1) {
+        paginationButtons.innerHTML = '';
+
+        // Botão Anterior
+        const prevBtn = document.createElement('button');
+        prevBtn.type = 'button';
+        prevBtn.innerHTML = '&larr; Anterior';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.className = `px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+          currentPage === 1
+            ? 'opacity-40 cursor-not-allowed text-sp-text-dim bg-sp-bg-elevated'
+            : 'text-sp-text hover:text-sp-primary bg-sp-bg-card hover:bg-sp-surface border border-sp-border shadow-xs'
+        }`;
+        prevBtn.addEventListener('click', () => {
+          if (currentPage > 1) {
+            currentPage--;
+            applyFilters(true);
+          }
+        });
+        paginationButtons.appendChild(prevBtn);
+
+        // Páginas Numéricas
+        for (let p = 1; p <= totalPages; p++) {
+          const pageBtn = document.createElement('button');
+          pageBtn.type = 'button';
+          pageBtn.textContent = String(p);
+          const isCurrent = p === currentPage;
+          pageBtn.className = `w-8 h-8 rounded-lg text-xs font-bold transition-all flex items-center justify-center ${
+            isCurrent
+              ? 'bg-sp-primary text-white shadow-xs'
+              : 'text-sp-text hover:text-sp-primary bg-sp-bg-card hover:bg-sp-surface border border-sp-border'
+          }`;
+          pageBtn.addEventListener('click', () => {
+            currentPage = p;
+            applyFilters(true);
+          });
+          paginationButtons.appendChild(pageBtn);
+        }
+
+        // Botão Próxima
+        const nextBtn = document.createElement('button');
+        nextBtn.type = 'button';
+        nextBtn.innerHTML = 'Próxima &rarr;';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.className = `px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+          currentPage === totalPages
+            ? 'opacity-40 cursor-not-allowed text-sp-text-dim bg-sp-bg-elevated'
+            : 'text-sp-text hover:text-sp-primary bg-sp-bg-card hover:bg-sp-surface border border-sp-border shadow-xs'
+        }`;
+        nextBtn.addEventListener('click', () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            applyFilters(true);
+          }
+        });
+        paginationButtons.appendChild(nextBtn);
+      }
+    }
+
+    function applyFilters(shouldScroll = false) {
+      // 1. Filtrar posts que combinam com busca e tag
+      const matched = [];
+      postItems.forEach((item) => {
+        const itemTags = JSON.parse(item.getAttribute('data-tags') || '[]');
+        const title = item.getAttribute('data-title') || '';
+        const description = item.getAttribute('data-description') || '';
+
+        const matchesTag = currentTag === 'all' || itemTags.includes(currentTag);
+        const matchesSearch = searchQuery === '' || title.includes(searchQuery) || description.includes(searchQuery);
+
+        if (matchesTag && matchesSearch) {
+          matched.push(item);
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      const totalMatched = matched.length;
+      const totalPages = Math.max(1, Math.ceil(totalMatched / pageSize));
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      // 2. Fatiar a página atual
+      const startIndex = (currentPage - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+
+      matched.forEach((item, index) => {
+        if (index >= startIndex && index < endIndex) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      // 3. Exibir mensagem de nenhum resultado
+      if (noResults) {
+        if (totalMatched === 0) {
+          noResults.classList.remove('hidden');
+        } else {
+          noResults.classList.add('hidden');
+        }
+      }
+
+      // 4. Renderizar controles de paginação
+      renderPagination(totalMatched);
+
+      // 5. Atualizar botões de tags
+      filterButtons.forEach((btn) => {
+        const tag = btn.getAttribute('data-tag');
+        if (tag === currentTag) {
+          btn.className = 'tag-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-sp-primary text-white shadow-xs transition-all';
+        } else {
+          btn.className = 'tag-filter-btn px-3 py-1.5 rounded-full text-xs font-medium uppercase tracking-wider bg-sp-bg-elevated hover:bg-sp-surface text-sp-text-muted hover:text-sp-primary border border-sp-border transition-all';
+        }
+      });
+
+      // 6. Scroll suave opcional
+      if (shouldScroll) {
+        const grid = document.getElementById('posts-grid');
+        grid?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Eventos de Tags
+    filterButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentTag = btn.getAttribute('data-tag') || 'all';
+        currentPage = 1;
+        applyFilters(false);
+      });
+    });
+
+    // Eventos de Busca
+    searchInput?.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      currentPage = 1;
+      applyFilters(false);
+    });
+
+    // Eventos do Seletor de Tamanho de Página (10, 25, 50)
+    pageSizeButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const newSize = parseInt(btn.getAttribute('data-size') || '10', 10);
+        if ([10, 25, 50].includes(newSize)) {
+          pageSize = newSize;
+          localStorage.setItem('pequenonegocio-blog-pagesize', String(newSize));
+          updatePageSizeButtons();
+          currentPage = 1;
+          applyFilters(false);
+        }
+      });
+    });
+
+    updatePageSizeButtons();
+    applyFilters(false);
+  }
+
+  setupBlogFiltering();
+  document.addEventListener('astro:page-load', setupBlogFiltering);
+</script>
